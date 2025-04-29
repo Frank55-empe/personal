@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criador de Remix para Reels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+        }
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        .tone-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tone-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .tone-card.selected {
+            border: 3px solid #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        .tab-active {
+            border-bottom: 3px solid #6366f1;
+        }
+        #output-section {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        #output-section.show {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        #videoPreview {
+            background: linear-gradient(45deg, #f3f4f6 25%, #e5e7eb 25%, #e5e7eb 50%, #f3f4f6 50%, #f3f4f6 75%, #e5e7eb 75%, #e5e7eb 100%);
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <header class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-white mb-2">Criador de Remix para Reels</h1>
+                <p class="text-white/80 text-lg">Transforme qualquer conteúdo em Reels virais com nossa ferramenta inteligente</p>
+            </header>
+
+            <!-- Main Content -->
+            <div class="content-box rounded-xl shadow-2xl overflow-hidden">
+                <!-- Steps Navigation -->
+                <div class="flex border-b border-gray-200 px-6 pt-4 bg-white">
+                    <button id="step1-btn" class="tab-active px-4 py-2 font-medium text-indigo-600 focus:outline-none">
+                        <span class="hidden sm:inline">Passo 1:</span> Análise
+                    </button>
+                    <button id="step2-btn" class="px-4 py-2 font-medium text-gray-500 focus:outline-none">
+                        <span class="hidden sm:inline">Passo 2:</span> Tom & Estilo
+                    </button>
+                    <button id="step3-btn" class="px-4 py-2 font-medium text-gray-500 focus:outline-none">
+                        <span class="hidden sm:inline">Passo 3:</span> Criar
+                    </button>
+                    <button id="step4-btn" class="px-4 py-2 font-medium text-gray-500 focus:outline-none">
+                        <span class="hidden sm:inline">Passo 4:</span> Personalizar
+                    </button>
+                </div>
+
+                <!-- Step 1: Content Analysis -->
+                <div id="step1" class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Análise de Conteúdo</h2>
+                    <p class="text-gray-600 mb-6">Forneça sua fonte de conteúdo (link de vídeo, imagem ou descrição). Nossa IA vai analisar e sugerir a melhor abordagem para seu remix.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="border border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition">
+                            <i class="fas fa-link text-4xl text-indigo-500 mb-2"></i>
+                            <h3 class="font-medium">Link de Vídeo</h3>
+                            <p class="text-sm text-gray-500">Cole URL do Instagram, TikTok ou YouTube</p>
+                        </div>
+                        <div class="border border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition">
+                            <i class="fas fa-image text-4xl text-pink-500 mb-2"></i>
+                            <h3 class="font-medium">Enviar Imagem</h3>
+                            <p class="text-sm text-gray-500">Print ou frame do seu conteúdo</p>
+                        </div>
+                        <div class="border border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition">
+                            <i class="fas fa-align-left text-4xl text-blue-500 mb-2"></i>
+                            <h3 class="font-medium">Descrição Textual</h3>
+                            <p class="text-sm text-gray-500">Descreva seu conteúdo ou ideia</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content-input" class="block text-sm font-medium text-gray-700 mb-2">Insira sua fonte de conteúdo:</label>
+                        <textarea id="content-input" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Cole seu link de vídeo, envie uma imagem ou descreva seu conteúdo aqui..."></textarea>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button id="analyze-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center">
+                            <i class="fas fa-magic mr-2"></i> Analisar Conteúdo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Tone & Style -->
+                <div id="step2" class="hidden p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Selecione o Tom & Estilo</h2>
+                    <p class="text-gray-600 mb-6">Escolha o tom e estilo que melhor se encaixam no seu conteúdo e público. Você pode combinar até dois estilos.</p>
+                    
+                    <div id="analysis-result" class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-blue-800">Resultado da Análise</h3>
+                                <div id="analysis-details" class="mt-2 text-sm text-blue-700">
+                                    <p><strong>Tema:</strong> Ainda não analisado</p>
+                                    <p><strong>Sentimento:</strong> Ainda não analisado</p>
+                                    <p><strong>Público:</strong> Ainda não analisado</p>
+                                    <
+</html>
